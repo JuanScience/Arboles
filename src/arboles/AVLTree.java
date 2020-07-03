@@ -174,48 +174,94 @@ public class AVLTree {
         }
     }
 
-    public void showBrother(Node father, Node node, char data) {
-        if (node == null)
-            System.out.println("No se ha encontrado el elemento");
-        else if (data < node.getData()){
-            showBrother(node, node.getLeft(), data);
+    public void showBrother(Node node, char data) {
+        if (data < node.getData()){
+            if(node.getLeft() != null)
+                if (node.getRight() == null)
+                    System.out.println(data + " no tiene hermano");
+                else if(node.getLeft().getData() == data)
+                    System.out.println("El hermano de " + data + " es: " + node.getRight().getData());
+                else
+                    showBrother(node.getLeft(), data);
+            else
+                System.out.println("No se encontró el dato");
         }else if (data > node.getData()){
-            showBrother(node, node.getRight(), data);
+            if(node.getRight() != null)
+                if (node.getLeft() == null)
+                    System.out.println(data + " no tiene hermano");
+                else if(node.getRight().getData() == data)
+                    System.out.println("El hermano de " + data + " es: " + node.getLeft().getData());
+                else
+                    showBrother(node.getRight(), data);
+            else
+                System.out.println("No se encontró el dato");
         }            
-        else{
-            if(father == null){
-                System.out.println(data + " no tiene hermanos, es la raiz del árbol");
-            }else if(data < node.getData() && node.getRight() != null){
-                System.out.println("El hermano de " + data + " es: " + node.getRight().getData());
-            }else if(data > node.getData() && node.getLeft() != null){
-                System.out.println("El hermano de " + data + " es: " + node.getLeft().getData());
-            }else
-                System.out.println(data + " no tiene hermano.");
-        }
+        else
+            System.out.println(data + " es la raíz del árbol");
     }
 
-    public void showCousins(Node node, char data, int level, int flag) {
-        if (node != null) {
-            flag++;
-            if (node.getLeft().getData() != data && node.getRight().getData() != data){
-                showCousins(node.getLeft(), data, level, flag);
-                showCousins(node.getRight(), data, level, flag);
+    public void showCousins(Node father, Node node, char data, int level, int flag) {
+        
+        if (level > 2 && father != null){
+
+            if (node != null){
+                if (node != father){
+                    flag++;
+                    showCousins(father, node.getLeft(), data, level, flag);
+                    showCousins(father, node.getRight(), data, level, flag);
+                }
+                if (flag == level)
+                    System.out.print(node.getData() + " ");
             }
-            if (flag == level && node.getData() != data)
-                System.out.print(node.getData() + " ");
+        }else{
+            System.out.println("El objeto está en la raiz o en los primeros hijos de esta o no existe. No hay primos");
         }
+    }
+    
+    public Node searchFather(Node node, char data){
+        if (data < node.getData()){
+            if(node.getLeft() != null)
+                if (node.getLeft().getData() == data)
+                    return node;
+                else
+                    return searchFather(node.getLeft(), data);
+            else
+                return null;
+        }else if (data > node.getData()){
+            if(node.getRight()!= null)
+                if (node.getRight().getData() == data)
+                    return node;
+                else
+                    return searchFather(node.getRight(), data);
+            else
+                return null;
+        }            
+        else
+            return null;
     }
     
     public int searchLevel(Node node, char data, int answer){
         if (node == null)
             return 0;
         else if (data < node.getData()){
-            return searchLevel(node.getLeft(), data, answer++);
+            answer++;
+            return searchLevel(node.getLeft(), data, answer);
         }else if (data > node.getData()){
-            return searchLevel(node.getRight(), data, answer++);
+            answer++;
+            return searchLevel(node.getRight(), data, answer);
         }            
         else
-            return answer++;
+            answer++;
+            return answer;
+    }
+
+    void showFathers(Node n) {
+        if (n != null) {
+            if(n.getLeft() != null || n.getRight() != null)
+                System.out.print(n.getData() + " ");
+            showFathers(n.getLeft());
+            showFathers(n.getRight());
+        }
     }
     
 
