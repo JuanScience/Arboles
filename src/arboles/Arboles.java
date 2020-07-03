@@ -27,7 +27,7 @@ public class Arboles {
         System.out.println("(4)  * Nivel de un registro");
         System.out.println("(5)  * Altura de un registro");
         System.out.println("(6)  * Mostrar hermano de registro");
-        System.out.println("(7)  ? Mostrar ancestros de un registro");
+        System.out.println("(7)  * Mostrar ancestros de un registro");
         System.out.println("(8)  * Mostrar primos de un registro");
         System.out.println("(9)  * Mostrar PreOrden");
         System.out.println("(10) * Mostrar InOrden");
@@ -56,8 +56,8 @@ public class Arboles {
                     menu();
                 case 3:
                     if (!isTreeNull()){
-                        String answer = " ";
-                        tree.showAncestors(tree.getRoot(), requestCharacter(), answer);
+                        System.out.print("\nPadres: ");
+                        tree.showFathers(tree.getRoot());
                     }
                     menu();
                 case 4:
@@ -73,16 +73,21 @@ public class Arboles {
                     menu();
                 case 6:
                     if (!isTreeNull()){                        
-                        tree.showBrother(null, tree.getRoot(), requestCharacter());
+                        tree.showBrother(tree.getRoot(), requestCharacter());
                     }
                     menu();
                 case 7:
+                    if (!isTreeNull()){
+                        String answer = " ";
+                        tree.showAncestors(tree.getRoot(), requestCharacter(), answer);
+                    }
                     menu();
                 case 8:
                     if (!isTreeNull()){
                         char character = requestCharacter();
                         int answer = 0, flag = 0;
-                        tree.showCousins(tree.getRoot(), character, tree.searchLevel(tree.getRoot(), character, answer), flag);
+                        System.out.print("Los primos de " + character + " son: ");
+                        tree.showCousins(tree.searchFather(tree.getRoot(), character), tree.getRoot(), character, tree.searchLevel(tree.getRoot(), character, answer), flag);
                     }
                     menu();
                 case 9:
