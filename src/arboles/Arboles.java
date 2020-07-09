@@ -28,14 +28,15 @@ public class Arboles {
         System.out.println("(5)  * Altura de un registro");
         System.out.println("(6)  * Mostrar hermano de registro");
         System.out.println("(7)  * Mostrar ancestros de un registro");
-        System.out.println("(8)  * Mostrar primos de un registro");
-        System.out.println("(9)  * Mostrar PreOrden");
-        System.out.println("(10) * Mostrar InOrden");
-        System.out.println("(11) * Mostrar PosOrden");
-        System.out.println("(12) * Borrar");
-        System.out.println("(13) * Salir");
+        System.out.println("(8)  * Mostrar primos completos de un registro");
+        System.out.println("(9)  * Mostrar primos de un registro");
+        System.out.println("(10) * Mostrar PreOrden");
+        System.out.println("(11) * Mostrar InOrden");
+        System.out.println("(12) * Mostrar PosOrden");
+        System.out.println("(13) * Borrar árbol");
+        System.out.println("(14) * Salir");
         System.out.println("----------------------------------------\n");
-        System.out.print("Ingrese una opción (0-13) -> ");
+        System.out.print("Ingrese una opción (0-14) -> ");
         opciones(INGRESO.nextLine());
     }
 
@@ -86,35 +87,43 @@ public class Arboles {
                     if (!isTreeNull()){
                         char character = requestCharacter();
                         int answer = 0, flag = 0;
-                        System.out.print("Los primos de " + character + " son: ");
-                        tree.showCousins(tree.searchFather(tree.getRoot(), character), tree.getRoot(), character, tree.searchLevel(tree.getRoot(), character, answer), flag);
+                        System.out.print("Los primos completos de " + character + " son: ");
+                        tree.showCousinsComplete(tree.searchFather(tree.getRoot(), character), tree.getRoot(), character, tree.searchLevel(tree.getRoot(), character, answer), flag);
                     }
                     menu();
                 case 9:
+                    if (!isTreeNull()){
+                        char character = requestCharacter();
+                        int answer = 0, flag = 0;
+                        System.out.print("Los primos de " + character + " son: ");
+                        tree.showCousins(tree.getRoot(), character);
+                    }
+                    menu();
+                case 10:
                     if (!isTreeNull()) {
                         System.out.print("\nRecorrido Preorden: ");
                         tree.readPreOrder(tree.getRoot());
                     }
                     menu();
-                case 10:
+                case 11:
                     if (!isTreeNull()) {
                         System.out.print("\nRecorrido Inorden: ");
                         tree.readInOrder(tree.getRoot());
                     }
                     menu();
-                case 11:
+                case 12:
                     if (!isTreeNull()) {
                         System.out.print("\nRecorrido Postorden: ");
                         tree.readPostOrder(tree.getRoot());
                     }
                     menu();
-                case 12:
+                case 13:
                     if (!isTreeNull()) {
                         tree.setRoot(null);
                         System.out.print("\nÁrbol eliminado");
                     }
                     menu();
-                case 13:
+                case 14:
                     System.out.print("\nAdiós!\n\n");
                     System.exit(0);
                 default:
