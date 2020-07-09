@@ -200,18 +200,44 @@ public class AVLTree {
             System.out.println(data + " es la raíz del árbol");
     }
 
-    public void showCousins(Node father, Node node, char data, int level, int flag) {
+    public void showCousinsComplete(Node father, Node node, char data, int level, int flag) {
         
         if (level > 2 && father != null){
 
             if (node != null){
                 if (node != father){
                     flag++;
-                    showCousins(father, node.getLeft(), data, level, flag);
-                    showCousins(father, node.getRight(), data, level, flag);
+                    showCousinsComplete(father, node.getLeft(), data, level, flag);
+                    showCousinsComplete(father, node.getRight(), data, level, flag);
                 }
                 if (flag == level)
                     System.out.print(node.getData() + " ");
+            }
+        }else{
+            System.out.println("El objeto está en la raiz o en los primeros hijos de esta o no existe. No hay primos");
+        }
+    }
+    
+    public void showCousins(Node root,char data) {
+        Node father = searchFather(root, data);
+        Node grandfather = null;
+        if(father != null)
+            grandfather = searchFather(root, father.getData());
+        if (grandfather != null){
+            if (grandfather.getData() < data){
+                if (grandfather.getLeft() != null){
+                    if(grandfather.getLeft().getLeft() != null)
+                        System.out.print(grandfather.getLeft().getLeft().getData());
+                    if(grandfather.getLeft().getRight() != null)
+                        System.out.print(grandfather.getLeft().getRight().getData());
+                }
+            }else{
+                if (grandfather.getRight()!= null){
+                    if(grandfather.getRight().getLeft() != null)
+                        System.out.print(grandfather.getRight().getLeft().getData());
+                    if(grandfather.getRight().getRight() != null)
+                        System.out.print(grandfather.getRight().getRight().getData());
+                }
             }
         }else{
             System.out.println("El objeto está en la raiz o en los primeros hijos de esta o no existe. No hay primos");
